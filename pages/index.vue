@@ -11,19 +11,17 @@
       .text-h2 Hi,<br>I'm <span>Laila</span>.
       .text-h5.text-grey-darken-4.mt-8 I'm your virtual friend. I'll learn from our conversation and remember details about you.
       .mt-8
-        a(
+        v-btn(
           href="https://replicate.com/?utm_source=project&utm_campaign=laila-ai"
           target="_new"
+          color="secondary"
+          variant="flat"
+          size="small"
+          rounded
         )
-          v-btn(
-            color="secondary"
-            variant="flat"
-            size="small"
-            rounded
-          )
-            | Built on Replicate
-            template(#append)
-              v-icon(color="#FFFFFF" size="large") mdi-open-in-new
+          | Built on Replicate
+          template(#append)
+            v-icon(color="#FFFFFF" size="large") mdi-open-in-new
   conversation-window
 </template>
 

@@ -3,19 +3,17 @@ v-app-bar(flat)
   v-app-bar-title Laila AI
   span
   .app-bar-actions
-    a(
+    v-btn(
       href="https://github.com/aurdalgroup/laila-app"
       target="_new"
+      color="black"
+      variant="flat"
+      size="small"
+      rounded
     )
-      v-btn(
-        color="black"
-        variant="flat"
-        size="small"
-        rounded
-      )
-        template(#prepend)
-          v-icon(color="white" size="large") mdi-github
-        | Code
+      template(#prepend)
+        v-icon(color="white" size="large") mdi-github
+      | Code
 </template>
 
 <style lang="stylus" scoped>

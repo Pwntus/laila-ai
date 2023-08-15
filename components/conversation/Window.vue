@@ -26,6 +26,7 @@
     v-model="text"
     placeholder="Message..."
     variant="solo-filled"
+    enterkeyhint="send"
     auto-grow hide-details no-resize flat
   )
 </template>
