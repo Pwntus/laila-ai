@@ -96,11 +96,6 @@ export default {
           type: 'image/x-icon',
           href: '/favicon.ico',
           sizes: 'any'
-        },
-        {
-          rel: 'icon',
-          type: 'image/svg+xml',
-          href: '/favicon.svg'
         }
       ]
     }
