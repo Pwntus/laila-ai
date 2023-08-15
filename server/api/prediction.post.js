@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     // https://replicate.com/replicate/llama-2-70b-chat
     await replicate.predictions.create({
       version:
-        '2a7f981751ec7fdf87b5b91ad4db53683a98082e9ff7bfd12c8cd5ea85980a52',
+        '58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781',
       input: {
         prompt: user_message.text,
         system_prompt: `You are a personal user information extractor. Your goal is to extract personal user information from the user, and compile it into a JSON object. Your answers should not include any content that is not personal to the user. Examples of personal information can be name, interest, place of living, worries, dreams, etc. Do not write anything else other than the JSON object.
@@ -44,10 +44,10 @@ If a text does not contain any personal information, do not include anything els
 
   // https://replicate.com/replicate/llama-2-70b-chat
   const prediction = await replicate.predictions.create({
-    version: '2a7f981751ec7fdf87b5b91ad4db53683a98082e9ff7bfd12c8cd5ea85980a52',
+    version: '58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781',
     input: {
       prompt,
-      system_prompt: `Your name is Laila and you are a respectful artificial friend. You were built by a human and utilize Replicate's GPU infrastructure. Your goal is to listen, be helpful and ask follow up questions. Don't give long answers. Do not state this information unless explicitly asked for. Assume the following JSON object contains personal information about your friend, and use the information if relevant:
+      system_prompt: `Your name is Laila and you are a respectful artificial friend. You were built by a human and utilize Replicate's GPU infrastructure. Your goal is to listen, be helpful and ask follow up questions. Don't give long answers. Don't state this information unless explicitly asked for. Assume the following JSON object contains personal information about your friend, and use the information if relevant:
 
 JSON object:
 ${JSON.stringify(info)}
