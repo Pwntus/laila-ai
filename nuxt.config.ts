@@ -4,7 +4,7 @@ export default {
   },
   ssr: false,
   nitro: {
-    preset: 'vercel-edge'
+    preset: 'vercel'
   },
   sourcemap: {
     server: false,
