@@ -4,7 +4,7 @@ v-app-bar(flat)
   span
   .app-bar-actions
     v-btn(
-      href="https://github.com/pwntus/laila-app"
+      href="https://github.com/pwntus/laila-ai"
       target="_new"
       color="black"
       variant="flat"
