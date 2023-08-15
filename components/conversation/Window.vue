@@ -14,7 +14,7 @@
           size="40"
         )
     .conversation-window-text
-      span {{  item.text }}
+      span(v-html="markdownToHtml(item.text)")
     template(v-if="!item?.isAssistant")
       v-avatar(size="40")
         v-icon(
@@ -34,6 +34,7 @@
 <script>
 import { mapActions } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
+import { marked } from 'marked'
 
 import useAppStore from '@/stores/app'
 import { EventBus } from '@/services'
@@ -46,7 +47,10 @@ export default {
     text: ''
   }),
   methods: {
-    ...mapActions(useAppStore, ['createPrediction']),
+    ...mapActions(useAppStore, ['createPrediction', 'createSDXL']),
+    markdownToHtml(str) {
+      return marked.parse(str)
+    },
     getInfo() {
       try {
         const info = JSON.parse(localStorage.getItem('info') || '{}')
@@ -59,7 +63,7 @@ export default {
         return {}
       }
     },
-    async predictionChat(payload) {
+    async webhookChat(payload) {
       const { output, query } = payload
       const { id } = query
 
@@ -68,7 +72,7 @@ export default {
 
       this.messages[index].text = output.join('')
     },
-    async predictionInfo(payload) {
+    async webhookInfo(payload) {
       const { output } = payload
 
       try {
@@ -82,6 +86,38 @@ export default {
       } catch (e) {
         console.log('--- failed to store info: ', e)
       }
+    },
+    async webhookImage(payload) {
+      const { output } = payload
+
+      try {
+        const prompt = output.join('')
+        console.log('--- SDXL prompt', prompt)
+        if (prompt.includes('false')) return
+
+        const message_id = uuidv4()
+        this.messages.push({
+          id: message_id,
+          isAssistant: true,
+          text: '...'
+        })
+
+        await this.createSDXL({
+          prompt,
+          message_id
+        })
+      } catch (e) {
+        console.log('--- failed to create SDXL image: ', e)
+      }
+    },
+    async webhookSDXL(payload) {
+      const { output, query } = payload
+      const { id } = query
+
+      const index = this.messages.findIndex((message) => message.id === id)
+      if (index < 0) return
+
+      this.messages[index].text = `![An image](${output[0]} "An image")`
     },
     async doCreatePrediction() {
       this.loading = true
@@ -114,6 +150,7 @@ export default {
     this.messages.push({ id: uuidv4(), isAssistant: true, text: '...' })
     this.createPrediction({
       skip_extract: true,
+      skip_image: true,
       info: this.getInfo(),
       messages: [
         {
@@ -125,12 +162,16 @@ export default {
       ]
     })
 
-    EventBus.$on('prediction:chat', this.predictionChat)
-    EventBus.$on('prediction:info', this.predictionInfo)
+    EventBus.$on('webhook:chat', this.webhookChat)
+    EventBus.$on('webhook:info', this.webhookInfo)
+    EventBus.$on('webhook:image', this.webhookImage)
+    EventBus.$on('webhook:sdxl', this.webhookSDXL)
   },
   beforeUnmount() {
-    EventBus.$off('prediction:chat', this.predictionChat)
-    EventBus.$off('prediction:info', this.predictionInfo)
+    EventBus.$off('webhook:chat', this.webhookChat)
+    EventBus.$off('webhook:info', this.webhookInfo)
+    EventBus.$off('webhook:image', this.webhookImage)
+    EventBus.$off('webhook:sdxl', this.webhookSDXL)
   }
 }
 </script>
@@ -173,6 +214,16 @@ export default {
       span
         padding 16px
         display inline-block
+
+        :deep(hr)
+          margin 8px 0
+          border 0
+          border-top 1px solid #dadada
+
+        :deep(img)
+          max-width 100%
+          margin-bottom -5px
+          border-radius 8px
 
   .v-text-field
     margin-top 16px

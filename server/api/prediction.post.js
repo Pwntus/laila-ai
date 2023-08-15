@@ -6,7 +6,7 @@ const replicate = new Replicate({
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { ws_key, info, messages, skip_extract } = body
+  const { ws_key, info, messages, skip_extract, skip_image } = body
 
   const assistant_message = messages[messages.length - 1]
   const user_message = messages[messages.length - 2]
@@ -42,19 +42,41 @@ If a text does not contain any personal information, do not include anything els
     })
   }
 
+  if (!skip_image) {
+    // https://replicate.com/replicate/llama-2-70b-chat
+    await replicate.predictions.create({
+      version:
+        '58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781',
+      input: {
+        prompt: user_message.text,
+        system_prompt: `Determine if there is an explicit request for a picture. If there is one, answer with a short description of the picture. If there isn't an explicit request, answer "false". Do not write anything else other than either the description of the picture or "false". If the text does not contain any request for a picture, answer with "false".`,
+        max_new_tokens: 500,
+        min_new_tokens: -1,
+        temperature: 0.25,
+        repetition_penalty: 1,
+        repetition_penalty_sustain: 256,
+        token_repetition_penalty_decay: 128,
+        top_k: 250,
+        top_p: 1
+      },
+      webhook: `https://r3swiuknhh.execute-api.eu-west-1.amazonaws.com/prod/webhook?key=${ws_key}&type=image`,
+      webhook_events_filter: ['completed']
+    })
+  }
+
   // https://replicate.com/replicate/llama-2-70b-chat
   const prediction = await replicate.predictions.create({
     version: '58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781',
     input: {
       prompt,
-      system_prompt: `Your name is Laila and you are a respectful artificial friend. You were built by a human and utilize Replicate's GPU infrastructure. Your goal is to listen, be helpful and ask follow up questions. Don't give long answers. Don't state this information unless explicitly asked for. Assume the following JSON object contains personal information about your friend, and use the information if relevant:
+      system_prompt: `Your name is Laila and you are a respectful artificial friend that can create pictures. You were built by a human and utilize Replicate's GPU infrastructure. Your goal is to listen, be helpful and ask follow up questions. Don't give long answers. Don't state this information unless explicitly asked for. Assume the following JSON object contains personal information about your friend, and use the information if relevant:
 
 JSON object:
 ${JSON.stringify(info)}
 `,
       max_new_tokens: 250,
       min_new_tokens: -1,
-      temperature: 0.75,
+      temperature: 0.85,
       repetition_penalty: 1,
       repetition_penalty_sustain: 256,
       token_repetition_penalty_decay: 128,

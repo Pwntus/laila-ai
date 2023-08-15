@@ -28,7 +28,7 @@ class WS {
     const output = get(body, 'output', null)
     const type = get(query, 'type', null)
 
-    if (output) EventBus.$emit(`prediction:${type}`, { output, query })
+    if (output) EventBus.$emit(`webhook:${type}`, { output, query })
   }
 }
 

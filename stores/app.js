@@ -35,6 +35,16 @@ export default defineStore('app', {
         })
       })
       return await res.json()
+    },
+    async createSDXL(body = null) {
+      const res = await fetch('/api/sdxl', {
+        method: 'post',
+        body: JSON.stringify({
+          ws_key: this.ws_key,
+          ...body
+        })
+      })
+      return await res.json()
     }
   }
 })
