@@ -11,6 +11,7 @@ export default {
     client: false
   },
   modules: ['@pinia/nuxt', '@invictus.codes/nuxt-vuetify'],
+  plugins: [{ src: '~/plugins/vercel.js', mode: 'client' }],
   css: ['vuetify/styles', '@mdi/font/css/materialdesignicons.css'],
   vuetify: {
     vuetifyOptions: {

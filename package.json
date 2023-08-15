@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "@vercel/analytics": "^1.0.2",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
     "replicate": "^0.16.0",
