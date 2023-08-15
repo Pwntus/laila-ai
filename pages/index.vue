@@ -24,6 +24,7 @@
             | Built on Replicate
             template(#append)
               v-icon(color="#FFFFFF" size="large") mdi-open-in-new
+
   conversation-window
 </template>
 
