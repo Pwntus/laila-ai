@@ -3,7 +3,7 @@ v-app
   ui-app-bar
   v-main
     v-container
-      nuxt-page
+      nuxt-page(v-if="inited")
 </template>
 
 <script>
@@ -13,9 +13,17 @@ import useAppStore from '@/stores/app'
 
 export default {
   name: 'App',
+  data: () => ({
+    inited: false
+  }),
   methods: mapActions(useAppStore, ['init']),
-  mounted() {
-    this.init()
+  async mounted() {
+    try {
+      await this.init()
+      this.inited = true
+    } catch (e) {
+      console.log('--- failed to init', e)
+    }
   }
 }
 </script>
@@ -25,5 +33,4 @@ export default {
   .v-container
     max-width 1000px
     padding-top 4rem
-    padding-bottom 4rem
 </style>

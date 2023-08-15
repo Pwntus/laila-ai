@@ -23,7 +23,7 @@ export default {
               background: '#f6f6f6',
               surface: '#ffffff',
               primary: '#333',
-              secondary: '#0071e3',
+              secondary: '##0184ff',
               error: '#FF5252',
               info: '#2196F3',
               success: '#008000',
@@ -70,11 +70,11 @@ export default {
         },
         {
           property: 'og:image',
-          content: 'https://laila-ai.com/cover.jpeg'
+          content: 'https://laila-ai.com/cover.jpg'
         },
         {
           property: 'twitter:image',
-          content: 'https://laila-lai.com/cover.jpeg'
+          content: 'https://laila-lai.com/cover.jpg'
         },
         {
           property: 'twitter:card',

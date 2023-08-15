@@ -1,20 +1,21 @@
 <template lang="pug">
-v-app-bar(
-  :class="{ mobile: $vuetify.display.mobile }"
-  flat
-)
+v-app-bar(flat)
   v-app-bar-title Laila AI
   span
   .app-bar-actions
-    v-btn(
-      color="black"
-      variant="flat"
-      size="small"
-      rounded
+    a(
+      href="https://github.com/aurdalgroup/laila-app"
+      target="_new"
     )
-      template(#prepend)
-        v-icon(color="white" size="large") mdi-github
-      | Code
+      v-btn(
+        color="black"
+        variant="flat"
+        size="small"
+        rounded
+      )
+        template(#prepend)
+          v-icon(color="white" size="large") mdi-github
+        | Code
 </template>
 
 <style lang="stylus" scoped>

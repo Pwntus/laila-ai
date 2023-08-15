@@ -1,48 +1,33 @@
-# Nuxt Example
+# Laila AI
 
-Deploy your [Nuxt](https://nuxt.com) project to Vercel with zero configuration.
+![Laila AI](./public/cover.jpg)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/vercel/tree/main/examples/nuxtjs&template=nuxtjs)
+## How it works
 
-_Live Example: https://nuxtjs-template.vercel.app_
+This app is powered by:
 
-Look at the [Nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+🚀 [Replicate](https://replicate.com/?utm_source=project&utm_campaign=laila-ai), a platform for running machine learning models in the cloud.
 
-## Setup
+🖍️ [Llama 2 13B](https://replicate.com/a16z-infra/llama-2-13b-chat?utm_source=project&utm_campaign=laila-ai), an open-source large language machine learning model from Meta that is fine tuned for chat completions.
 
-Make sure to install the dependencies:
+▲ [Vercel](https://vercel.com/), a platform for running web apps.
 
-```bash
-# yarn
-yarn
+⚡️ Nuxt.js [server-side API routes](server/api), for talking to Replicate's API.
 
-# npm
-npm install
+👀 Nuxt.js Vue components, for the browser UI.
 
-# pnpm
-pnpm install --shamefully-hoist
-```
+🍃 [Vuetify](https://vuetifyjs.com/en/), a component framwork for Vue.
 
-## Development Server
+## Development
 
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment#presets) for more information.
+1. Install a recent version of [Node.js](https://nodejs.org/)
+1. Copy your [Replicate API token](https://replicate.com/account?utm_source=project&utm_campaign=laila-ai) and set it in your environment:
+   ```
+   echo "REPLICATE_API_TOKEN=<your-token-here>" > .env.local
+   ```
+1. Install dependencies and run the server:
+   ```
+   npm install
+   npm run dev
+   ```
+1. Open [localhost:3000](http://localhost:3000) in your browser. That's it!

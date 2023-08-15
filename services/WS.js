@@ -24,10 +24,11 @@ class WS {
   }
 
   onmessage(event) {
-    const { body } = event.data
-    const output = get(body, 'output[0]', null)
+    const { body, query } = event.data
+    const output = get(body, 'output', null)
+    const type = get(query, 'type', null)
 
-    if (output) EventBus.$emit('prediction:output', output)
+    if (output) EventBus.$emit(`prediction:${type}`, { output, query })
   }
 }
 
