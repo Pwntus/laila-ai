@@ -93,7 +93,7 @@ export default {
       try {
         const prompt = output.join('')
         console.log('--- SDXL prompt', prompt)
-        if (prompt.includes('false')) return
+        if (prompt.toLowerCase().includes('false')) return
 
         const message_id = uuidv4()
         this.messages.push({
@@ -182,7 +182,7 @@ export default {
   background @css { rgb(var(--v-theme-surface)) }
 
   .conversation-window-message
-    margin-top 16px
+    margin-bottom 16px
     display grid
     -moz-column-gap 16px
     column-gap 16px
@@ -224,6 +224,31 @@ export default {
           max-width 100%
           margin-bottom -5px
           border-radius 8px
+
+        :deep(ol), :deep(ul)
+          margin-left 16px
+
+          li
+            margin 16px 0 0 16px
+
+        :deep(code)
+          padding 1px 6px 2px
+          font-size 14px
+          background #e3e3e3
+          border 1px solid #cdcdcd
+          border-radius 4px
+
+        :deep(pre)
+          margin 16px 0
+          padding 8px 16px
+          background #333
+          color #fff
+          border-radius 6px
+
+          code
+            padding 0
+            background none
+            border none
 
   .v-text-field
     margin-top 16px
