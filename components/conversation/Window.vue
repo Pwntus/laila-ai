@@ -51,6 +51,11 @@ export default {
     markdownToHtml(str) {
       return marked.parse(str)
     },
+    doScroll() {
+      const scrollableHeight =
+        document.documentElement.scrollHeight - window.innerHeight
+      return window.scrollY >= scrollableHeight
+    },
     getInfo() {
       try {
         const info = JSON.parse(localStorage.getItem('info') || '{}')
@@ -70,7 +75,15 @@ export default {
       const index = this.messages.findIndex((message) => message.id === id)
       if (index < 0) return
 
+      const doScroll = this.doScroll()
+
       this.messages[index].text = output.join('')
+
+      if (doScroll) {
+        this.$nextTick(() => {
+          window.scrollTo(0, document.body.scrollHeight)
+        })
+      }
     },
     async webhookInfo(payload) {
       const { output } = payload
@@ -117,7 +130,16 @@ export default {
       const index = this.messages.findIndex((message) => message.id === id)
       if (index < 0) return
 
+      const doScroll = this.doScroll()
+
       this.messages[index].text = `![An image](${output[0]} "An image")`
+
+      // Todo, scroll after image has loaded
+      if (doScroll) {
+        this.$nextTick(() => {
+          window.scrollTo(0, document.body.scrollHeight)
+        })
+      }
     },
     async doCreatePrediction() {
       this.loading = true
@@ -133,6 +155,10 @@ export default {
           ]
         )
         this.text = ''
+
+        this.$nextTick(() => {
+          window.scrollTo(0, document.body.scrollHeight)
+        })
 
         await this.createPrediction({
           info: this.getInfo(),
