@@ -1,3 +1,5 @@
+> Discontinued, not hosted anymore.
+
 # Laila AI
 
 ![Laila AI](./public/cover.jpg)
